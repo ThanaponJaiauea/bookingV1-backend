@@ -59,13 +59,13 @@ exports.login = async (req, res, next) => {
         updatedAt: user.updatedAt,
         isAdmin: user.isAdmin,
       },
-      //   process.env.JWT_SECRET_KEY,
+      process.env.JWT_SECRET_KEY,
+
       {
-        // expiresIn: process.env.JWT_EXPIRES_IN,
+        expiresIn: process.env.JWT_EXPIRES_IN,
       }
     )
 
-    console.log("accessToken:", accessToken)
     res.status(200).json({accessToken})
   } catch (err) {
     next(err)
