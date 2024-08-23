@@ -1,5 +1,6 @@
 /** @format */
 const {Booking} = require("../models")
+const {Op} = require("sequelize")
 
 exports.createBooking = async (req, res, next) => {
   try {
@@ -7,6 +8,7 @@ exports.createBooking = async (req, res, next) => {
     const {roomId} = req.params
     const userId = req.user.id
 
+    // console.log("userId:", userId)
     // console.log("roomId:", roomId)
     // console.log("data:", data)
 
@@ -18,15 +20,14 @@ exports.createBooking = async (req, res, next) => {
     const startDate = convertDateToISO(data[0].startDate)
     const endDate = convertDateToISO(data[0].endDate)
 
-    // Check if the room is already booked for the same date range
     const existingBooking = await Booking.findOne({
       where: {
         roomId: +roomId,
         startDate: {
-          [Op.lte]: endDate, // Less than or equal to endDate
+          [Op.lte]: endDate,
         },
         endDate: {
-          [Op.gte]: startDate, // Greater than or equal to startDate
+          [Op.gte]: startDate,
         },
       },
     })
@@ -48,7 +49,7 @@ exports.createBooking = async (req, res, next) => {
       status: data[0].status,
     }
 
-    console.log("value:", value)
+    // console.log("value:", value)
 
     await Booking.create(value)
 
