@@ -58,6 +58,14 @@ module.exports = (sequelize, DataTypes) => {
       },
       onDelete: "RESTRICT",
     })
+
+    User.hasMany(db.Room, {
+      foreignKey: {
+        name: "userId",
+        allowNull: true,
+      },
+      onDelete: "RESTRICT",
+    })
   }
 
   return User

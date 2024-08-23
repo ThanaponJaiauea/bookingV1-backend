@@ -55,6 +55,14 @@ module.exports = (sequelize, DataTypes) => {
       },
       onDelete: "RESTRICT",
     })
+
+    Room.belongsTo(db.User, {
+      foreignKey: {
+        name: "userId",
+        allowNull: false,
+      },
+      onDelete: "RESTRICT",
+    })
   }
 
   return Room

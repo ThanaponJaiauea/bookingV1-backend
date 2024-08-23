@@ -5,6 +5,7 @@ const {Room} = require("../models")
 exports.createRoom = async (req, res, next) => {
   try {
     const {provinceId, name, description, address, price} = req.body
+    const userId = req.user.id
 
     if (!req.files || !req.files.image || req.files.image.length === 0) {
       return res.status(400).json({message: "Room image is required"})
@@ -18,6 +19,7 @@ exports.createRoom = async (req, res, next) => {
     }
 
     const value = {
+      userId: userId,
       provinceId: +provinceId,
       name: name,
       description: description,

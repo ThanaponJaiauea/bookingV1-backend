@@ -1,20 +1,48 @@
 /** @format */
-const {Booking, Room} = require("../models")
+const {Booking} = require("../models")
 
 exports.createBooking = async (req, res, next) => {
   try {
     const data = req.body
     const {roomId} = req.params
+    const userId = req.user.id
 
     // console.log("roomId:", roomId)
     // console.log("data:", data)
 
+    const convertDateToISO = (dateStr) => {
+      const [day, month, year] = dateStr.split("/")
+      return new Date(`${year}-${month}-${day}`).toISOString()
+    }
+
+    const startDate = convertDateToISO(data[0].startDate)
+    const endDate = convertDateToISO(data[0].endDate)
+
+    // Check if the room is already booked for the same date range
+    const existingBooking = await Booking.findOne({
+      where: {
+        roomId: +roomId,
+        startDate: {
+          [Op.lte]: endDate, // Less than or equal to endDate
+        },
+        endDate: {
+          [Op.gte]: startDate, // Greater than or equal to startDate
+        },
+      },
+    })
+
+    if (existingBooking) {
+      return res
+        .status(400)
+        .json({message: "Room is already booked for the selected dates."})
+    }
+
     const value = {
-      userId: data[0].userId,
+      userId: userId,
       roomId: +roomId,
       provinceId: data[0].provinceId,
-      startDate: data[0].startDate,
-      endDate: data[0].endDate,
+      startDate: startDate,
+      endDate: endDate,
       price: data[0].price,
       totalNotIncludingTax: data[0].totalNotIncludingTax,
       status: data[0].status,

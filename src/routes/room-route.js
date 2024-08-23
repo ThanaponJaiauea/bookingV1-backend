@@ -2,6 +2,7 @@
 const express = require("express")
 const roomController = require("../controllers/room-controller")
 const upload = require("../middlewares/upload")
+const authenticateMiddleware = require("../middlewares/authenticate")
 
 const router = express.Router()
 
@@ -13,6 +14,7 @@ router.post(
       maxCount: 6,
     },
   ]),
+  authenticateMiddleware,
   roomController.createRoom
 )
 
