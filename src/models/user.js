@@ -50,5 +50,15 @@ module.exports = (sequelize, DataTypes) => {
     }
   )
 
+  User.associate = (db) => {
+    User.hasMany(db.Booking, {
+      foreignKey: {
+        name: "userId",
+        allowNull: true,
+      },
+      onDelete: "RESTRICT",
+    })
+  }
+
   return User
 }
