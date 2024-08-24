@@ -13,29 +13,30 @@ exports.createBooking = async (req, res, next) => {
     console.log("data:", data)
 
     const convertDateToISO = (dateStr) => {
-      const [day, month, year] = dateStr.split("/")
-      return new Date(`${year}-${month}-${day}`).toISOString()
+      return new Date(dateStr).toISOString()
     }
 
     const startDate = convertDateToISO(data[0].startDate)
     const endDate = convertDateToISO(data[0].endDate)
 
-    console.log("startDate:", startDate)
-    console.log("endDate:", endDate)
+    // console.log("startDate:", startDate)
+    // console.log("endDate:", endDate)
 
     const existingBooking = await Booking.findOne({
       where: {
         roomId: +roomId,
         startDate: {
-          [Op.lt]: endDate,
+          // [Op.lt]: endDate,
+          [Op.lte]: endDate,
         },
         endDate: {
-          [Op.gt]: startDate,
+          // [Op.gt]: startDate,
+          [Op.gte]: startDate,
         },
       },
     })
 
-    console.log("existingBooking:", existingBooking)
+    // console.log("existingBooking:", existingBooking)
 
     if (existingBooking) {
       return res
