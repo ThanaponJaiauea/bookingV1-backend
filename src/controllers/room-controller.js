@@ -19,6 +19,8 @@ exports.createRoom = async (req, res, next) => {
       const roomImage = await cloudinary.createImageRooms(
         req.files.image[i].path
       )
+      console.log("roomImage:", roomImage)
+
       roomImages.push(roomImage)
       fs.unlinkSync(req.files.image[i].path)
     }
