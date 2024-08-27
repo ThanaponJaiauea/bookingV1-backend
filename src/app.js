@@ -13,9 +13,12 @@ const helmet = require("helmet")
 const rateLimit = require("express-rate-limit")
 
 const authRoute = require("./routes/auth-route")
+const userRoute = require("./routes/user-route")
 const bookingRoute = require("./routes/bookings-route")
 const provinceRoute = require("./routes/province-route")
 const roomRoute = require("./routes/room-route")
+
+const authenticateMiddleware = require("./middlewares/authenticate")
 
 const app = express()
 
@@ -32,6 +35,7 @@ app.use(cors())
 app.use(express.json())
 
 app.use("/auth", authRoute)
+app.use("/user", authenticateMiddleware, userRoute)
 app.use("/room", roomRoute)
 app.use("/booking", bookingRoute)
 app.use("/province", provinceRoute)
