@@ -23,6 +23,7 @@ exports.updateProfileImage = async (req, res, next) => {
       )
 
       value = {profileImage}
+      console.log("value:", value)
     }
 
     await User.update(value, {where: {id: req.user.id}})
