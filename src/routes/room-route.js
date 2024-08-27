@@ -8,12 +8,7 @@ const router = express.Router()
 
 router.post(
   "/",
-  upload.fields([
-    {
-      name: "image",
-      maxCount: 6,
-    },
-  ]),
+  upload.fields([{name: "image", maxCount: 10}]),
   authenticateMiddleware,
   roomController.createRoom
 )
