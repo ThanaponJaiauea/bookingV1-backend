@@ -42,6 +42,7 @@ exports.login = async (req, res, next) => {
     }
 
     const isCorrect = await bcrypt.compare(value.password, user.password)
+
     if (!isCorrect) {
       createError("invalid email or password", 400)
     }

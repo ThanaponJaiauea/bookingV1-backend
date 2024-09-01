@@ -1,6 +1,8 @@
 /** @format */
 
 const {Room} = require("../models")
+const fs = require("fs")
+const cloudinary = require("../utils/cloudinary")
 
 exports.createRoom = async (req, res, next) => {
   try {
@@ -14,8 +16,13 @@ exports.createRoom = async (req, res, next) => {
     const roomImages = []
 
     for (let i = 0; i < req.files.image.length; i++) {
-      const roomImage = req.files.image[i].path
+      const roomImage = await cloudinary.createImageRooms(
+        req.files.image[i].path
+      )
+      console.log("roomImage:", roomImage)
+
       roomImages.push(roomImage)
+      fs.unlinkSync(req.files.image[i].path)
     }
 
     const value = {
