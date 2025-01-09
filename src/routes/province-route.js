@@ -15,6 +15,7 @@ router.post(
   ]),
   provinceController.createProvince
 );
+
 router.get("/", provinceController.getProvice);
 
 module.exports = router;
