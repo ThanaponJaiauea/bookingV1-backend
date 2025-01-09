@@ -1,9 +1,9 @@
 /** @format */
-const express = require("express")
-const provinceController = require("../controllers/province-controller")
-const upload = require("../middlewares/upload")
+const express = require("express");
+const provinceController = require("../controllers/province-controller");
+const upload = require("../middlewares/upload");
 
-const router = express.Router()
+const router = express.Router();
 
 router.post(
   "/create",
@@ -14,7 +14,7 @@ router.post(
     },
   ]),
   provinceController.createProvince
-)
-router.get("/getAll", provinceController.getProvice)
+);
+router.get("/", provinceController.getProvice);
 
-module.exports = router
+module.exports = router;
